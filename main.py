@@ -8,6 +8,9 @@ height = 720
 screen = pygame.display.set_mode((width, height)) # create screen
 pygame.display.set_caption('SST')
 
+red = (255, 0, 0)
+blue = (0, 0, 255)
+
 x = 50
 y = 50
 velocity = 5
@@ -15,6 +18,17 @@ velocity = 5
 image = pygame.image.load('shipBlue.png') # load image
 imageWidth = image.get_width() # get image width
 imageHeight = image.get_height() # get image height
+
+blocks = [
+    {
+        'rect': pygame.Rect(500, 500, 100, 100),
+        'color': red
+    },
+    {
+        'rect': pygame.Rect(300, 100, 100, 100),
+        'color': red
+    }
+]
 
 while True: # main game loop
     for event in pygame.event.get(): # event handling loop
@@ -32,9 +46,19 @@ while True: # main game loop
     if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and (x + imageWidth < width):
         x += velocity
 
+    player = pygame.Rect(x, y, imageWidth, imageHeight)
+
+    for block in blocks:
+        if player.colliderect(block['rect']):
+            block['color'] = blue
+        else:
+            block['color'] = red
+
     screen.fill((0, 0, 0)) # clear screen by filling it with black
 
-    pygame.draw.rect(screen, (255, 0, 0), (500, 500, 100, 100))
+    for block in blocks:
+        pygame.draw.rect(screen, block['color'], block['rect'])
+
     screen.blit(image, (x, y))
 
     pygame.display.update() # tell pygame to that the screen needs to be updated
