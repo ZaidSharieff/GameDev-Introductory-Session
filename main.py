@@ -19,6 +19,7 @@ image = pygame.image.load('shipBlue.png') # load image
 imageWidth = image.get_width() # get image width
 imageHeight = image.get_height() # get image height
 
+# create blocks
 blocks = [
     {
         'rect': pygame.Rect(500, 500, 100, 100),
@@ -46,16 +47,20 @@ while True: # main game loop
     if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and (x + imageWidth < width):
         x += velocity
 
-    player = pygame.Rect(x, y, imageWidth, imageHeight)
+    player = pygame.Rect(x, y, imageWidth, imageHeight) # create player rectangle
 
+    # check for collision between player and blocks
     for block in blocks:
         if player.colliderect(block['rect']):
+            # if collision, change block color to blue
             block['color'] = blue
         else:
+            # if no collision, change block color to red
             block['color'] = red
 
     screen.fill((0, 0, 0)) # clear screen by filling it with black
 
+    # draw blocks
     for block in blocks:
         pygame.draw.rect(screen, block['color'], block['rect'])
 
